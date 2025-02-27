@@ -32,14 +32,55 @@ class SpaceRoute {
 private:
     Node<T>* head;
     Node<T>* tail;
+    int sizeOfTheVeryCoolSpaceRoute = 0;
 
 public:
     SpaceRoute();  // Constructor
     ~SpaceRoute(); // Destructor
 
-    void addWaypointAtBeginning(T& data);
-    void addWaypointAtEnd(T& data);
-    void addWaypointAtIndex(int index, T& data);
+    void addWaypointAtBeginning(T& data) {
+        if (sizeOfTheVeryCoolSpaceRoute == 0) {
+            head = new Node<T>(data);
+            head->prev = nullptr;
+            head->next = nullptr;
+            tail = head;
+        }
+        else {
+            Node<T>* temp = new Node<T>(data);
+            temp->prev = nullptr;
+            head->prev = temp;
+            temp->next = head;
+            head = temp;
+        }
+    }
+
+    void addWaypointAtEnd(T& data) {
+        if (sizeOfTheVeryCoolSpaceRoute == 0) {
+            head = new Node<T>(data);
+            head->prev = nullptr;
+            head->next = nullptr;
+            tail = head;
+        }
+        else {
+            Node<T>* temp = new Node<T>(data);
+            temp->prev = tail;
+            temp->next = nullptr;
+            tail->next = temp;
+            tail = temp;
+        }
+
+    }
+
+    void addWaypointAtIndex(int index, T& data) {
+        if (sizeOfTheVeryCoolSpaceRoute == 0) {
+            head = new Node<T>(data);
+        }
+        for (int i = 0; i < index; ++i) {
+// very cool guy
+        }
+    }
+
+
     void removeWaypointAtBeginning();
     void removeWaypointAtEnd();
     void removeWaypointAtIndex(int index);
