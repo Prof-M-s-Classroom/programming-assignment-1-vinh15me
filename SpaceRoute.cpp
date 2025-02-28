@@ -35,8 +35,20 @@ private:
     int sizeOfTheVeryCoolSpaceRoute = 0;
 
 public:
-    SpaceRoute();  // Constructor
-    ~SpaceRoute(); // Destructor
+    SpaceRoute() {
+        head = nullptr;
+        tail = nullptr;
+        sizeOfTheVeryCoolSpaceRoute = 0;
+    }
+    ;  // Constructor
+    ~SpaceRoute() {
+        Node<T>* temp = head;
+        while (head != nullptr) {
+            head = head->next;
+            delete temp;
+            temp = head;
+        }
+    }; // Destructor
 
     void addWaypointAtBeginning(T& data) {
         if (sizeOfTheVeryCoolSpaceRoute == 0) {
@@ -52,6 +64,7 @@ public:
             temp->next = head;
             head = temp;
         }
+        sizeOfTheVeryCoolSpaceRoute++;
     }
 
     void addWaypointAtEnd(T& data) {
@@ -68,26 +81,136 @@ public:
             tail->next = temp;
             tail = temp;
         }
-
+        sizeOfTheVeryCoolSpaceRoute++;
     }
 
     void addWaypointAtIndex(int index, T& data) {
-        if (sizeOfTheVeryCoolSpaceRoute == 0) {
-            head = new Node<T>(data);
+        if (sizeOfTheVeryCoolSpaceRoute == 0 || index == 0) {
+            addWaypointAtBeginning(data);
         }
-        for (int i = 0; i < index; ++i) {
-// very cool guy
+        else if (sizeOfTheVeryCoolSpaceRoute == index) {
+            addWaypointAtEnd(data);
+        }
+        else if (index > sizeOfTheVeryCoolSpaceRoute - 1 || index < 0) {
+            cout << "Index out of bounds" << endl;
+        }
+        else {
+            Node<T>* temp = head;
+            for (int i = 1; i < index; ++i) {
+                temp = temp->next;
+            }
+            Node<T>* newNode = new Node<T>(data);
+            newNode->prev = temp;
+            newNode->next = temp->next;
+            temp->next = newNode;
+            temp = newNode->next;
+            temp->prev = newNode;
+            sizeOfTheVeryCoolSpaceRoute++;
         }
     }
 
-
-    void removeWaypointAtBeginning();
-    void removeWaypointAtEnd();
-    void removeWaypointAtIndex(int index);
-    void traverseForward();
-    void traverseBackward();
-    Node<T>* getWaypoint(int index);
-    void setWaypoint(int index, T& data);
+    void removeWaypointAtBeginning() {
+        if (sizeOfTheVeryCoolSpaceRoute == 0) {
+            cout << "The list is empty" << endl;
+        }
+        else if (sizeOfTheVeryCoolSpaceRoute == 1) {
+            Node<T>* temp = head;
+            head = nullptr;
+            tail = nullptr;
+            sizeOfTheVeryCoolSpaceRoute--;
+            delete temp;
+        }
+        else {
+            Node<T>* temp = head;
+            head = head->next;
+            head->prev = nullptr;
+            delete temp;
+            sizeOfTheVeryCoolSpaceRoute--;
+        }
+    }
+    void removeWaypointAtEnd() {
+        if (sizeOfTheVeryCoolSpaceRoute == 0) {
+            cout << "The list is empty" << endl;
+        }
+        else if (sizeOfTheVeryCoolSpaceRoute == 1) {
+            Node<T>* temp = head;
+            head = nullptr;
+            tail = nullptr;
+            sizeOfTheVeryCoolSpaceRoute--;
+            delete temp;
+        }
+        else {
+            Node<T>* temp = tail;
+            tail = tail->prev;
+            tail->next = nullptr;
+            delete temp;
+            sizeOfTheVeryCoolSpaceRoute--;
+        }
+    }
+    void removeWaypointAtIndex(int index) {
+        if (sizeOfTheVeryCoolSpaceRoute == 0) {
+            cout << "The list is empty" << endl;
+        }
+        else if (sizeOfTheVeryCoolSpaceRoute - 1 < index || index < 0) {
+            cout << "Index out of bounds" << endl;
+        }
+        else if (index == 0) {
+            removeWaypointAtBeginning();
+        }
+        else if (index == sizeOfTheVeryCoolSpaceRoute - 1) {
+            removeWaypointAtEnd();
+        }
+        else {
+            Node<T>* temp = head;
+            for (int i = 0; i < index; ++i) {
+                temp = temp->next; // [0,1,2,3,4,5,6] remove 4
+            }
+            temp->prev->next = temp->next;
+            temp->next->prev = temp->prev;
+            delete temp;
+            sizeOfTheVeryCoolSpaceRoute--;
+        }
+    }
+    void traverseForward() {
+        Node<T> * temp = head;
+        while (temp != nullptr) {
+            cout << temp->data << " ";
+            temp = temp->next;
+        }
+    }
+    void traverseBackward() {
+        Node<T>* temp = tail;
+        while (temp != nullptr) {
+            cout << temp->data << " ";
+            temp = temp->prev;
+        }
+    }
+    Node<T>* getWaypoint(int index) {
+        if (index < 0 || index > sizeOfTheVeryCoolSpaceRoute - 1) {
+            cout << "Index out of bounds" << endl;
+        }
+        else if (sizeOfTheVeryCoolSpaceRoute == 0) {
+            cout << "The list is empty" << endl;
+        }
+        Node<T>* temp = head;
+        for (int i = 0; i < index; i++) {
+            temp = temp->next;
+        }
+        return temp;
+    }
+    void setWaypoint(int index, T& _data) {
+        if (index < 0 || index > sizeOfTheVeryCoolSpaceRoute - 1) {
+            cout << "Index out of bounds" << endl;
+        }
+        else if (sizeOfTheVeryCoolSpaceRoute == 0) {
+            cout << "The list is empty" << endl;
+        }
+        Node<T>* temp = head;
+        for (int i = 0; i < index; i++) {
+            temp = temp->next;
+        }
+        temp->data = _data;
+    }
     void print(){
 
             Node<T>* current = head;
@@ -95,7 +218,7 @@ public:
                 current->print();
                 current = current->next;
             }
-            cout << endl;
+            cout << endl << "Size: " << sizeOfTheVeryCoolSpaceRoute << endl;
         }
 
 };

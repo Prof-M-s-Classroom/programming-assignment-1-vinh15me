@@ -1,14 +1,11 @@
-Hello teacher prof or however you want to be refered to. this is my very cool read me so I don't lose points. thank you very much.
-
-#### Imagine this text is big and bold... thank you... - 
-#### First Method is the very cool addWaypointAtBeginning.
-
-* This text is smaller and not bold... thank you...
+### First Method: addWaypointAtBeginning(T& data)
+* What this method does is that it adds a waypoint which is data to the front of the linked list. It gets set as the head and points to what used to be the head. If there is nothing in the list, it gets set as the head and tail.
 * This method has a time complexity of O(1) because it consistently takes the same amount no matter what you input.
 
 
-### Imagine this text is bigger and bolder than the first one... thank you... -
-### Second Method is the slightly less cool than the first one addWaypointAtEnd.
-
-* This text is smaller and not bold... thank you...
+### Second Method: addWaypointAtEnd(T& data)
+* What this method does is that it adds a waypoint to the end of the linked list and that node gets set as the tail. If there is nothing in the list it get set as the head and tail.
 * This method has a time complexity of O(1) because it consistently takes the same amount no matter what you input.
+
+### Third Method: addWaypointAtIndex(int index, T& data)
+*
